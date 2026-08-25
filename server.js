@@ -116,7 +116,7 @@ app.post("/produtos", (req, res) =>{
     estoque: req.body.estoque
   }
   produtos.push(novoProduto)
-  res.status(201).json("Deu certo :)")
+  res.status(201).json(novoProduto)
 })
 
 app.put("/produtos/:id", (req, res) => {
@@ -151,7 +151,7 @@ app.delete("/produtos/:id", (req, res) =>{
   }
   
   const produtoDeletado = produtos.splice(produto, 1)
-  res.status(200).json("Deletado :)")
+  res.status(200).json(produtoDeletado)
 })
 const port = 80
 app.listen(port, ()=> {
