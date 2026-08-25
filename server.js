@@ -147,7 +147,7 @@ app.delete("/produtos/:id", (req, res) =>{
   const id = parseInt(req.params.id)
   const produto = produtos.findIndex(p => p.id === id)
   if(produto === -1){
-    res.status(404).json("Error!")
+    return res.status(404).json("Error!")
   }
   
   const produtoDeletado = produtos.splice(produto, 1)
