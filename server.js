@@ -1,5 +1,6 @@
 const express = require ('express')
 const app = express ()
+app.use(express.json())
 
 const produtos = [
   {
@@ -88,27 +89,36 @@ const produtos = [
   }
 ]
 
-app.get('/', (req, res) => {
-    res.send (`Olá estranho.`)
+app.get("/", (req, res) =>{
+  res.send("lala")
 })
 
-app.get('/produtos', (req, res) => {
-    res.json(produtos)
+app.get("/produtos", (req, res) =>{
+  res.json(produtos)
 })
 
-app.get('/produtos/:id', (req, res) => {
-    const id = parseInt (req.params.id)
-
-    const index = produtos.findIndex (prod => prod.id === id)
-    if (index >= 0) {
-        res.json(produtos[index])
-    } else {
-        res.status(404).send ('Deu ruim -- Produto não existe')
-    }
+app.get("/produtos/:id", (req, res) =>{
+  const id = parseInt(req.params.id)
+  const index = produtos.findIndex(prod => prod.id === id)
+  if(index >= 0){
+    res.json(produtos[index])
+  }else{
+    res.status(404).send("Vish, deu ruim mané :(")
+  }
 })
 
-
-const port = 3000
-app.listen (port, ()=>{
-    console.log (`Server rodando no http://localhost:${port}`)
+app.post("/produtos", (req, res) =>{
+  const novoProduto = {
+    id: produtos.length + 1,
+    nome: req.body.nome,
+    descricao: req.body.descricao,
+    categoria: req.body.categoria,
+    estoque: req.body.estoque
+  }
+  produtos.push(novoProduto)
+  res.status(201).json("Deu certo :)")
+})
+const port = 80
+app.listen(port, ()=> {
+  console.log(`Server rodando no http://localhost:${port}`)
 })
