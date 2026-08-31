@@ -1,7 +1,7 @@
 const express = require ('express')
 const app = express ()
 app.use(express.json())
-app.use(express.static("public"))
+
 const produtos = [
   {
     "id": 1,
@@ -89,6 +89,11 @@ const produtos = [
   }
 ]
 
+app.use((req, res, next)=>{
+  console.log(new Date().toLocaleString(), req.method, req.path)
+  next()
+})
+app.use(express.static("public"))
 app.get("/", (req, res) =>{
   res.send("lala")
 })
@@ -152,6 +157,9 @@ app.delete("/produtos/:id", (req, res) =>{
   
   const produtoDeletado = produtos.splice(produto, 1)
   res.status(200).json(produtoDeletado)
+})
+app.use((req, res) =>{
+  res.status(404).send('Recurso não existe')
 })
 const port = 80
 app.listen(port, ()=> {
